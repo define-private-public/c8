@@ -1,0 +1,8 @@
+# Temporary files
+*.sw*
+
+# Binaries
+c8_sdl
+
+# Sample ROMs
+roms
