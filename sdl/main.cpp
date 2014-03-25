@@ -15,7 +15,7 @@ using namespace std;
 
 Display disp(64, 32);
 
-const int scale = 2;
+const int scale = 4;
 const int screenWidth = disp.getWidth() * scale;
 const int screenHeight = disp.getHeight() * scale;
 
@@ -58,6 +58,13 @@ int main(int argc, char *argv[]) {
 
 	disp.setPixel(1, 1, 1);
 	disp.setPixel(62, 30, 1);
+	unsigned char sprite8[5];
+	sprite8[0] = 0xF0;
+	sprite8[1] = 0x90;
+	sprite8[2] = 0xF0;
+	sprite8[3] = 0x90;
+	sprite8[4] = 0xF0;
+	cout <<	disp.drawSprite(1, 1, 5, sprite8) << endl;
 	
 	
 	/*== Main program loop ==*/
@@ -87,7 +94,7 @@ int main(int argc, char *argv[]) {
 				if (disp.getPixel(j, i)) {
 					pixelRect.x = j * scale, pixelRect.y = i * scale;
 					pixelRect.w = pixelRect.h = scale;
-					SDL_RenderDrawRect(renderer, &pixelRect);
+					SDL_RenderFillRect(renderer, &pixelRect);
 				}
 			}
 		}

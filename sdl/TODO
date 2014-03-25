@@ -1,7 +1,6 @@
 TODO list for the SDL2 CHIP-8 Emualtor
 
 1. Establish Output
-	1. Graphics
 	2. Audio
 2. Establish Internals
 	1. CPU System
