@@ -10,10 +10,10 @@ using namespace std;
 // SDL2 includes
 #include <SDL2/SDL.h>
 
-// TODO: Make a Display Module instead of this
-const unsigned int scale = 2;
-const unsigned int screenWidth = 64 * scale;
-const unsigned int screenHeight = 32 * scale;
+// d8 includes
+#include "display.h"
+
+const int scale = 2;
 
 // TODO: Need better time measurement
 const unsigned int cpuSpeed = 60;	// Measured in Hertz

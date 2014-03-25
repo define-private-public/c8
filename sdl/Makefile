@@ -6,16 +6,20 @@
 CXX = g++
 #CXXFLAGS = ggdb
 CXXFLAGS = 
-SOURCES = main.cpp
+HEADERS = display.h
+SOURCES = main.cpp display.cpp
 LIBS = -lSDL2
 
 
-c8_sdl: main.o
-	$(CXX) -o c8_sdl main.o $(LIBS) $(CXXFLAGS)
+c8_sdl: main.o display.o
+	$(CXX) -o c8_sdl main.o display.o $(LIBS) $(CXXFLAGS)
 
 
 main.o: main.cpp
 	$(CXX) -c main.cpp -o main.o $(CXXFLAGS)
+
+display.o: display.h display.cpp
+	$(CXX) -c display.cpp -o display.o $(CXXFLAGS)
 
 
 # Housekeeping targets
