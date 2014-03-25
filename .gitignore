@@ -1,6 +1,9 @@
 # Temporary files
 *.sw*
 
+# Object files
+*.o
+
 # Binaries
 c8_sdl
 
