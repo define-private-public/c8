@@ -13,14 +13,20 @@ using namespace std;
 // d8 includes
 #include "display.h"
 
-Display disp(64, 32);
 
+// Defitions
+#define BEEP_PATH "../beep.wav"
+
+
+// for the screen
+Display disp(64, 32);
 const int scale = 4;
 const int screenWidth = disp.getWidth() * scale;
 const int screenHeight = disp.getHeight() * scale;
 
 // TODO: Need better time measurement
 const unsigned int cpuSpeed = 60;	// Measured in Hertz
+
 
 
 // Main program function
@@ -32,6 +38,7 @@ int main(int argc, char *argv[]) {
 	SDL_Event event;
 	SDL_Color onClr = {0x00, 0xD0, 0x00}, offClr = {0x00, 0x20, 0x00};
 	SDL_Rect pixelRect;
+	SDL_AudioSpec beepSpec;
 
 	// Init all of the sub systems
 	if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
@@ -54,20 +61,10 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 
-	SDL_ShowCursor(0);
 
-	disp.setPixel(1, 1, 1);
-	disp.setPixel(62, 30, 1);
-	unsigned char sprite8[5];
-	sprite8[0] = 0xF0;
-	sprite8[1] = 0x90;
-	sprite8[2] = 0xF0;
-	sprite8[3] = 0x90;
-	sprite8[4] = 0xF0;
-	cout <<	disp.drawSprite(1, 1, 5, sprite8) << endl;
-	
 	
 	/*== Main program loop ==*/
+	SDL_ShowCursor(0);
 	while (!quit) {
 		while (SDL_PollEvent(&event)) {
 			// Window exit
@@ -86,19 +83,6 @@ int main(int argc, char *argv[]) {
 		// Clear the screen
 		SDL_SetRenderDrawColor(renderer, offClr.r, offClr.g, offClr.b, 0xFF);
 		SDL_RenderClear(renderer);
-
-		// TODO bad way of queueing up pixels to draw
-		SDL_SetRenderDrawColor(renderer, onClr.r, onClr.g, onClr.b, 0xFF);
-		for (int i = 0; i < disp.getHeight(); i++) {
-			for (int j = 0; j < disp.getWidth(); j++) {
-				if (disp.getPixel(j, i)) {
-					pixelRect.x = j * scale, pixelRect.y = i * scale;
-					pixelRect.w = pixelRect.h = scale;
-					SDL_RenderFillRect(renderer, &pixelRect);
-				}
-			}
-		}
-
 
 		// Flip the screen and hold
 		SDL_RenderPresent(renderer);
