@@ -9,6 +9,9 @@
 /*==
 * Default CHIP-8 supports a 64 by 32 pixel display (monochrome).  Of course, there are alternatives
 * but it's best juse to use that one.
+*
+* A pixel set to `0` is off
+* A pixel set to `1` is on,  everything else is undefined
 */
 
 
@@ -29,9 +32,10 @@ public:
 	int getHeight();
 	int getPixel(int x, int y);
 
-	// Mutators
-	int setPixel(int x, int y, int value);
-	int drawSprite(int x, int y, int height, unsigned char pixels[]);
+	// Mutators	
+	void clearDisplay();
+	int setPixel(int x, int y, int value);		// Bad convienece method
+	int drawSprite(int x, int y, int sHeight, unsigned char sprite[]);
 
 
 
@@ -39,7 +43,7 @@ private:
 	int _width;
 	int _height;
 	int *_pixels;
-}
+};
 
 
 #endif	// C8_DISPLAY_H

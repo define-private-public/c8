@@ -11,16 +11,14 @@ SOURCES = main.cpp display.cpp
 LIBS = -lSDL2
 
 
-c8_sdl: main.o display.o
+c8_sdl: display.o main.o
 	$(CXX) -o c8_sdl main.o display.o $(LIBS) $(CXXFLAGS)
-
-
-main.o: main.cpp
-	$(CXX) -c main.cpp -o main.o $(CXXFLAGS)
 
 display.o: display.h display.cpp
 	$(CXX) -c display.cpp -o display.o $(CXXFLAGS)
 
+main.o: main.cpp
+	$(CXX) -c main.cpp -o main.o $(CXXFLAGS)
 
 # Housekeeping targets
 clean:
