@@ -6,18 +6,21 @@
 CXX = g++
 #CXXFLAGS = ggdb
 CXXFLAGS = 
-HEADERS = display.h
-SOURCES = main.cpp display.cpp
+HEADERS = display.h sys_internals.h
+SOURCES = main.cpp display.cpp sys_internals.cpp
 LIBS = -lSDL2
 
 
-c8_sdl: display.o main.o
-	$(CXX) -o c8_sdl main.o display.o $(LIBS) $(CXXFLAGS)
+c8_sdl: sys_internals.o display.o main.o
+	$(CXX) -o c8_sdl main.o sys_internals.o display.o $(LIBS) $(CXXFLAGS)
+
+sys_internals.o: sys_internals.h sys_internals.cpp
+	$(CXX) -c sys_internals.cpp -o sys_internals.o $(CXXFLAGS)
 
 display.o: display.h display.cpp
 	$(CXX) -c display.cpp -o display.o $(CXXFLAGS)
 
-main.o: main.cpp
+main.o: $(HEADERS) main.cpp
 	$(CXX) -c main.cpp -o main.o $(CXXFLAGS)
 
 # Housekeeping targets

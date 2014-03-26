@@ -11,12 +11,16 @@ using namespace std;
 #include <SDL2/SDL.h>
 
 // d8 includes
+#include "sys_internals.h"
 #include "display.h"
 
 
 // Defitions
 #define BEEP_PATH "../beep.wav"
 
+
+// System internals
+Stack stack(STACK_SIZE);
 
 // for the screen
 Display disp(64, 32);
@@ -60,6 +64,24 @@ int main(int argc, char *argv[]) {
 		cerr << "Could not create the renderer." << endl;
 		exit(1);
 	}
+
+	// Make a new stack
+	cout << "Size: " << stack.getStackSize() << endl;
+	cout << "SP:   " << stack.getStackPointer() << endl;
+	stack.push(0x200);
+	cout << "SP:   " << stack.getStackPointer() << endl;
+	stack.push(0x500);
+	cout << "SP:   " << stack.getStackPointer() << endl;
+	stack.push(0x67B);
+	cout << "SP:   " << stack.getStackPointer() << endl;
+	cout << stack.pop() << endl;
+	cout << "SP:   " << stack.getStackPointer() << endl;
+	cout << stack.pop() << endl;
+	cout << "SP:   " << stack.getStackPointer() << endl;
+	cout << stack.pop() << endl;
+	cout << "SP:   " << stack.getStackPointer() << endl;
+	cout << stack.pop() << endl;
+	cout << "SP:   " << stack.getStackPointer() << endl;
 
 
 	
