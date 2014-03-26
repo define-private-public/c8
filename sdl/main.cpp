@@ -38,9 +38,14 @@ int main(int argc, char *argv[]) {
 	SDL_Renderer *renderer;
 	SDL_Event event;
 	SDL_Color onClr = {0x00, 0xD0, 0x00}, offClr = {0x00, 0x20, 0x00};
-	SDL_Rect pixelRect;
 	SDL_AudioSpec beepSpec;
+	
+	// For graphics
+	SDL_Rect pixelRects[disp.getWidth() * disp.getHeight()];
+	int pixelsOn = 0;
 
+	
+	/*== Initialize the SDL stuff ==*/
 	// Init all of the sub systems
 	if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
 		cerr << "Could not initialize SDL2." << endl;
@@ -62,6 +67,23 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 
+	
+	/*== Other Setup Junk ==*/
+
+	// Setup the pixel rectangle dimensions
+	for (int i = 0; i < (disp.getWidth() * disp.getHeight()); i++)
+		pixelRects[i].w = pixelRects[i].h = scale;
+
+	unsigned char spr[5];
+	for (int i = 8; i < 16; i++) {
+		spr[0] = mem.readByte(MEM_FONT_START + (i * 5) + 0);
+		spr[1] = mem.readByte(MEM_FONT_START + (i * 5) + 1);
+		spr[2] = mem.readByte(MEM_FONT_START + (i * 5) + 2);
+		spr[3] = mem.readByte(MEM_FONT_START + (i * 5) + 3);
+		spr[4] = mem.readByte(MEM_FONT_START + (i * 5) + 4);
+		
+		disp.drawSprite((i - 8) * 8 + 1, 1, 5, spr);
+	}
 
 	
 	/*== Main program loop ==*/
@@ -81,32 +103,22 @@ int main(int argc, char *argv[]) {
 
 
 		/*== Drawing ==*/
-		// Clear the screen
-		SDL_SetRenderDrawColor(renderer, offClr.r, offClr.g, offClr.b, 0xFF);
-		SDL_RenderClear(renderer);
-		
-		unsigned char spr[5];
-		for (int i = 8; i < 16; i++) {
-			spr[0] = mem.readByte(MEM_FONT_START + (i * 5) + 0);
-			spr[1] = mem.readByte(MEM_FONT_START + (i * 5) + 1);
-			spr[2] = mem.readByte(MEM_FONT_START + (i * 5) + 2);
-			spr[3] = mem.readByte(MEM_FONT_START + (i * 5) + 3);
-			spr[4] = mem.readByte(MEM_FONT_START + (i * 5) + 4);
-			
-			disp.drawSprite((i - 8) * 8 + 1, 1, 5, spr);
-		}
-
-		SDL_SetRenderDrawColor(renderer, onClr.r, onClr.g, onClr.b, 0xFF);
+		// Queue up the pixels that need to be drawn
+		pixelsOn = 0;
 		for (int y = 0; y < disp.getHeight(); y++) {
 			for (int x = 0; x < disp.getWidth(); x++) {
 				if (disp.getPixel(x, y)) {
-					pixelRect.x = scale * x, pixelRect.y = scale * y;
-					pixelRect.w = pixelRect.h = scale;
-
-					SDL_RenderFillRect(renderer, &pixelRect);
+					pixelRects[pixelsOn].x = scale * x, pixelRects[pixelsOn].y = scale * y;
+					pixelsOn++;
 				}
 			}
 		}
+
+		// Clear the screen then draw the pixels
+		SDL_SetRenderDrawColor(renderer, offClr.r, offClr.g, offClr.b, 0xFF);
+		SDL_RenderClear(renderer);
+		SDL_SetRenderDrawColor(renderer, onClr.r, onClr.g, onClr.b, 0xFF);
+		SDL_RenderFillRects(renderer, pixelRects, pixelsOn);
 
 
 
