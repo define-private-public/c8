@@ -84,8 +84,7 @@ int Memory::writeByte(reg16 addr, reg8 data) {
 // Returns 0 on success
 int Memory::loadCHIP8Program(char *filename) {
 	// Vars we need
-	int i;
-	unsigned char c;
+	int i, c;
 	FILE *c8File = NULL;
 
 	// Open the file first
@@ -97,9 +96,12 @@ int Memory::loadCHIP8Program(char *filename) {
 	c = fgetc(c8File);
 	i = MEM_PROG_START;
 	while ((c != EOF) && (i < _memSize)) {
-		_mem[i++] = c;
+		_mem[i++] = (unsigned char)c;
 		c = fgetc(c8File);
 	}
+
+	// Set the program size
+	_programSize = i - MEM_PROG_START;
 
 	// close the file and exit with success
 	fclose(c8File);

@@ -10,7 +10,7 @@
 
 #define NUM_GPR 16 				// Number of General purpose registers
 #define STACK_SIZE 16			// Defualt stack size for more systems
-#define MEM_4KB 0xFFF;			// Defualt memory size
+#define MEM_4KB 0x1000			// Defualt memory size
 #define MEM_FONT_START 0x050	// Start of the built in CHIP-8 Font
 #define MEM_PROG_START 0x200	// Default program starting point
 
@@ -22,6 +22,7 @@ typedef unsigned short reg16;
 
 // The memory file
 class Memory {
+public:
 	// Constructors
 	Memory(int memSize);
 	~Memory();
@@ -44,6 +45,7 @@ class Memory {
 	int getMemorySize();
 
 	// TODO: Add in CHIP-8 Interpreter & Font?
+	// TODO: Add in Dump to file?
 
 private:
 	int _programSize;		// Size of the loaded CHIP-8 program
