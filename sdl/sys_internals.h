@@ -8,8 +8,11 @@
 #ifndef C8_SYS_INTERNALS_H
 #define C8_SYS_INTERNALS_H
 
-#define NUM_GPR 16 		// Number of General purpose registers
-#define STACK_SIZE 16	// Defualt stack size for more systems
+#define NUM_GPR 16 				// Number of General purpose registers
+#define STACK_SIZE 16			// Defualt stack size for more systems
+#define MEM_4KB 0xFFF;			// Defualt memory size
+#define MEM_FONT_START 0x050	// Start of the built in CHIP-8 Font
+#define MEM_PROG_START 0x200	// Default program starting point
 
 
 // Sometypedefs, though possibly unecessary, kind of useful
@@ -17,11 +20,38 @@ typedef unsigned char reg8;
 typedef unsigned short reg16;
 
 
+// The memory file
 class Memory {
-	// TODO: Add stuf here	
+	// Constructors
+	Memory(int memSize);
+	~Memory();
+	Memory(const Memory &other);
+
+	// Overloads
+	Memory &operator=(const Memory &other);
+
+	// Memory operations
+	reg8 readByte();
+	int writeByte(reg8 data);
+	int loadCHIP8Program(char *filename);
+
+	// NOTE: Don't use the methods unless you know what you're doing, thing of them as a back door
+	int load(unsigned char *data, int size);		// Overwrite all of memory with a specific block
+	int dump(unsigned char *dest);					// Perform a dump on memory
+
+	// Accessors
+	int getProgramSize();
+	int getMemorySize();
+
+	// TODO: Add in CHIP-8 Interpreter & Font?
 
 private:
-	int _programSize;
+	int _programSize;		// Size of the loaded CHIP-8 program
+	int _memSize;			// Total size of the memory
+	unsigned char *_mem;	// The actual memory being referenced
+
+	// I know there might some inconsistancies with using `unisgned char` instead of `reg8` here,
+	// but I thought this is a bit more descriptive;  reg8 is meant for registers
 };
 
 
