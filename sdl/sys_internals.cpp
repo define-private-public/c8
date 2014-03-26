@@ -31,6 +31,10 @@ Memory::Memory(const Memory &other) :
 	_memSize(other._memSize),
 	_programSize(other._programSize)
 {
+	// Don't have any extra lingering memory
+	if (_mem)
+		delete[] _mem;
+
 	// Load up some fresh memory and copy the other stuff over
 	_mem = new unsigned char[_memSize];
 	memcpy(_mem, other._mem, _memSize);
@@ -41,6 +45,10 @@ Memory::Memory(const Memory &other) :
 Memory &Memory::operator=(const Memory &other) {
 	if (this == &other)
 		return *this;
+	
+	// Don't have any extra lingering memory
+	if (_mem)
+		delete[] _mem;
 
 	// Copy everything over
 	_memSize = other._memSize;
@@ -169,6 +177,10 @@ Stack::Stack(const Stack &other) :
 	_stackSize(other._stackSize),
 	_sp(other._sp)
 {
+	// Cleanup
+	if (_stack)
+		delete[] _stack;
+
 	// allocate for the stack and copy the other one.
 	_stack = new reg16[_stackSize];
 	memcpy(_stack, other._stack, _stackSize);
@@ -179,7 +191,12 @@ Stack::Stack(const Stack &other) :
 Stack &Stack::operator=(const Stack &other) {
 	if (this == &other)
 		return *this;
-	
+
+	// Cleanup
+	if (_stack)
+		delete[] _stack;
+
+	// Set variables
 	_stackSize = other._stackSize;
 	_sp = other._sp;
 

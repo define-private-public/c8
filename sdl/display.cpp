@@ -20,6 +20,10 @@ Display::Display(int width, int height) :
 Display::Display(const Display &other) :
 	_width(other._width), _height(other._height)
 {
+	// Free the lingering memory
+	if (_pixels)
+		delete[] _pixels;
+
 	// Allocate the pixels and copy them over
 	_pixels = new int[_width * _height];
 	memcpy(_pixels, other._pixels, _width * _height);
@@ -37,9 +41,13 @@ Display &Display::operator=(const Display &other) {
 	// Make sure we don't duplicate
 	if (this == &other)
 		return *this;
-	
+
 	_width = other._width;
 	_height = other._height;
+
+	// Free the lingering memory
+	if (_pixels)
+		delete[] _pixels;
 
 	// Allocate the pixels and copy them over
 	_pixels = new int[_width * _height];

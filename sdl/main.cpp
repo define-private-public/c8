@@ -62,25 +62,6 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 
-	// Memory file test
-	cout << "Mem size: " << mem.getMemorySize() << endl;
-	cout << "Prog size: " << mem.getProgramSize() << endl;
-	cout << "FB: " << (int)mem.readByte(MEM_PROG_START) << endl;
-	cout << "Load File: " << mem.loadCHIP8Program(argv[1]) << endl;
-	cout << "Prog size: " << mem.getProgramSize() << endl;
-	cout << "FB: " << (int)mem.readByte(MEM_PROG_START) << endl;
-	cout << "WB: " << mem.writeByte(MEM_PROG_START, 0xFF) << endl;
-	cout << "FB: " << (int)mem.readByte(MEM_PROG_START) << endl;
-
-	// Alter one byte and see what happens
-	unsigned char dest[MEM_4KB];
-	cout << "Dump: " << mem.dump(dest) << endl;
-	dest[MEM_PROG_START] = 0xFE;
-	cout << "Load: " << mem.load(dest, MEM_4KB) << endl;
-	cout << "FB: " << (int)mem.readByte(MEM_PROG_START) << endl;
-
-
-
 
 	
 	/*== Main program loop ==*/
