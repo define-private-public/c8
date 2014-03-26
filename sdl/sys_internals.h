@@ -55,7 +55,8 @@ private:
 	// I know there might some inconsistancies with using `unisgned char` instead of `reg8` here,
 	// but I thought this is a bit more descriptive;  reg8 is meant for registers
 
-
+	// Private methods
+	void _loadFont();		// Sets in the CHIP-8 Interpreter font
 };
 
 

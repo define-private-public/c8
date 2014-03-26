@@ -84,6 +84,31 @@ int main(int argc, char *argv[]) {
 		// Clear the screen
 		SDL_SetRenderDrawColor(renderer, offClr.r, offClr.g, offClr.b, 0xFF);
 		SDL_RenderClear(renderer);
+		
+		unsigned char spr[5];
+		for (int i = 8; i < 16; i++) {
+			spr[0] = mem.readByte(MEM_FONT_START + (i * 5) + 0);
+			spr[1] = mem.readByte(MEM_FONT_START + (i * 5) + 1);
+			spr[2] = mem.readByte(MEM_FONT_START + (i * 5) + 2);
+			spr[3] = mem.readByte(MEM_FONT_START + (i * 5) + 3);
+			spr[4] = mem.readByte(MEM_FONT_START + (i * 5) + 4);
+			
+			disp.drawSprite((i - 8) * 8 + 1, 1, 5, spr);
+		}
+
+		SDL_SetRenderDrawColor(renderer, onClr.r, onClr.g, onClr.b, 0xFF);
+		for (int y = 0; y < disp.getHeight(); y++) {
+			for (int x = 0; x < disp.getWidth(); x++) {
+				if (disp.getPixel(x, y)) {
+					pixelRect.x = scale * x, pixelRect.y = scale * y;
+					pixelRect.w = pixelRect.h = scale;
+
+					SDL_RenderFillRect(renderer, &pixelRect);
+				}
+			}
+		}
+
+
 
 		// Flip the screen and hold
 		SDL_RenderPresent(renderer);

@@ -18,6 +18,7 @@ Memory::Memory(int memSize) :
 {
 	// Allocate some fresh memory
 	_mem = new unsigned char[_memSize];
+	_loadFont();	// Load up the default CHIP-8 Font
 }
 
 
@@ -150,6 +151,124 @@ int Memory::getProgramSize() {
 // Returns the current size of allocated memory
 int Memory::getMemorySize() {
 	return _memSize;
+}
+
+
+// Sets the default font into memory
+void Memory::_loadFont() {
+	const int fontHeight = 5;
+	
+	// 0
+	_mem[MEM_FONT_START + 0] = 0xF0;
+	_mem[MEM_FONT_START + 1] = 0x90;
+	_mem[MEM_FONT_START + 2] = 0x90;
+	_mem[MEM_FONT_START + 3] = 0x90;
+	_mem[MEM_FONT_START + 4] = 0xF0;
+
+	// 1
+	_mem[MEM_FONT_START + (1 * fontHeight) + 0] = 0x20;
+	_mem[MEM_FONT_START + (1 * fontHeight) + 1] = 0x60;
+	_mem[MEM_FONT_START + (1 * fontHeight) + 2] = 0x20;
+	_mem[MEM_FONT_START + (1 * fontHeight) + 3] = 0x20;
+	_mem[MEM_FONT_START + (1 * fontHeight) + 4] = 0x70;
+
+	// 2
+	_mem[MEM_FONT_START + (2 * fontHeight) + 0] = 0xF0;
+	_mem[MEM_FONT_START + (2 * fontHeight) + 1] = 0x10;
+	_mem[MEM_FONT_START + (2 * fontHeight) + 2] = 0xF0;
+	_mem[MEM_FONT_START + (2 * fontHeight) + 3] = 0x80;
+	_mem[MEM_FONT_START + (2 * fontHeight) + 4] = 0xF0;
+
+	// 3
+	_mem[MEM_FONT_START + (3 * fontHeight) + 0] = 0xF0;
+	_mem[MEM_FONT_START + (3 * fontHeight) + 1] = 0x10;
+	_mem[MEM_FONT_START + (3 * fontHeight) + 2] = 0xF0;
+	_mem[MEM_FONT_START + (3 * fontHeight) + 3] = 0x10;
+	_mem[MEM_FONT_START + (3 * fontHeight) + 4] = 0xF0;
+
+	// 4
+	_mem[MEM_FONT_START + (4 * fontHeight) + 0] = 0x90;
+	_mem[MEM_FONT_START + (4 * fontHeight) + 1] = 0x90;
+	_mem[MEM_FONT_START + (4 * fontHeight) + 2] = 0xF0;
+	_mem[MEM_FONT_START + (4 * fontHeight) + 3] = 0x10;
+	_mem[MEM_FONT_START + (4 * fontHeight) + 4] = 0x10;
+
+	// 5
+	_mem[MEM_FONT_START + (5 * fontHeight) + 0] = 0xF0;
+	_mem[MEM_FONT_START + (5 * fontHeight) + 1] = 0x80;
+	_mem[MEM_FONT_START + (5 * fontHeight) + 2] = 0xF0;
+	_mem[MEM_FONT_START + (5 * fontHeight) + 3] = 0x10;
+	_mem[MEM_FONT_START + (5 * fontHeight) + 4] = 0xF0;
+
+	// 6
+	_mem[MEM_FONT_START + (6 * fontHeight) + 0] = 0xF0;
+	_mem[MEM_FONT_START + (6 * fontHeight) + 1] = 0x80;
+	_mem[MEM_FONT_START + (6 * fontHeight) + 2] = 0xF0;
+	_mem[MEM_FONT_START + (6 * fontHeight) + 3] = 0x90;
+	_mem[MEM_FONT_START + (6 * fontHeight) + 4] = 0xF0;
+
+	// 7
+	_mem[MEM_FONT_START + (7 * fontHeight) + 0] = 0xF0;
+	_mem[MEM_FONT_START + (7 * fontHeight) + 1] = 0x10;
+	_mem[MEM_FONT_START + (7 * fontHeight) + 2] = 0x20;
+	_mem[MEM_FONT_START + (7 * fontHeight) + 3] = 0x40;
+	_mem[MEM_FONT_START + (7 * fontHeight) + 4] = 0x40;
+
+	// 8
+	_mem[MEM_FONT_START + (8 * fontHeight) + 0] = 0xF0;
+	_mem[MEM_FONT_START + (8 * fontHeight) + 1] = 0x90;
+	_mem[MEM_FONT_START + (8 * fontHeight) + 2] = 0xF0;
+	_mem[MEM_FONT_START + (8 * fontHeight) + 3] = 0x90;
+	_mem[MEM_FONT_START + (8 * fontHeight) + 4] = 0xF0;
+
+	// 9
+	_mem[MEM_FONT_START + (9 * fontHeight) + 0] = 0xF0;
+	_mem[MEM_FONT_START + (9 * fontHeight) + 1] = 0x90;
+	_mem[MEM_FONT_START + (9 * fontHeight) + 2] = 0xF0;
+	_mem[MEM_FONT_START + (9 * fontHeight) + 3] = 0x10;
+	_mem[MEM_FONT_START + (9 * fontHeight) + 4] = 0xF0;
+
+	// A
+	_mem[MEM_FONT_START + (0xA * fontHeight) + 0] = 0xF0;
+	_mem[MEM_FONT_START + (0xA * fontHeight) + 1] = 0x90;
+	_mem[MEM_FONT_START + (0xA * fontHeight) + 2] = 0xF0;
+	_mem[MEM_FONT_START + (0xA * fontHeight) + 3] = 0x90;
+	_mem[MEM_FONT_START + (0xA * fontHeight) + 4] = 0x90;
+
+	// B
+	_mem[MEM_FONT_START + (0xB * fontHeight) + 0] = 0xE0;
+	_mem[MEM_FONT_START + (0xB * fontHeight) + 1] = 0x90;
+	_mem[MEM_FONT_START + (0xB * fontHeight) + 2] = 0xE0;
+	_mem[MEM_FONT_START + (0xB * fontHeight) + 3] = 0x90;
+	_mem[MEM_FONT_START + (0xB * fontHeight) + 4] = 0xE0;
+
+	// C
+	_mem[MEM_FONT_START + (0xC * fontHeight) + 0] = 0xF0;
+	_mem[MEM_FONT_START + (0xC * fontHeight) + 1] = 0x80;
+	_mem[MEM_FONT_START + (0xC * fontHeight) + 2] = 0x80;
+	_mem[MEM_FONT_START + (0xC * fontHeight) + 3] = 0x80;
+	_mem[MEM_FONT_START + (0xC * fontHeight) + 4] = 0xF0;
+
+	// D
+	_mem[MEM_FONT_START + (0xD * fontHeight) + 0] = 0xE0;
+	_mem[MEM_FONT_START + (0xD * fontHeight) + 1] = 0x90;
+	_mem[MEM_FONT_START + (0xD * fontHeight) + 2] = 0x90;
+	_mem[MEM_FONT_START + (0xD * fontHeight) + 3] = 0x90;
+	_mem[MEM_FONT_START + (0xD * fontHeight) + 4] = 0xE0;
+
+	// E
+	_mem[MEM_FONT_START + (0xE * fontHeight) + 0] = 0xF0;
+	_mem[MEM_FONT_START + (0xE * fontHeight) + 1] = 0x80;
+	_mem[MEM_FONT_START + (0xE * fontHeight) + 2] = 0xF0;
+	_mem[MEM_FONT_START + (0xE * fontHeight) + 3] = 0x80;
+	_mem[MEM_FONT_START + (0xE * fontHeight) + 4] = 0xF0;
+
+	// F
+	_mem[MEM_FONT_START + (0xF * fontHeight) + 0] = 0xF0;
+	_mem[MEM_FONT_START + (0xF * fontHeight) + 1] = 0x80;
+	_mem[MEM_FONT_START + (0xF * fontHeight) + 2] = 0xF0;
+	_mem[MEM_FONT_START + (0xF * fontHeight) + 3] = 0x80;
+	_mem[MEM_FONT_START + (0xF * fontHeight) + 4] = 0x80;
 }
 
 
