@@ -7,6 +7,7 @@
 #define C8_BUZZER_H
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 
 // Buzzer Class
 // NOTE: This class should be a singleton
@@ -19,9 +20,8 @@ public:
 	void play();
 
 private:
-	static Uint8 *_pos;
-	static Uint32 _len;
-	static SDL_AudioSpec _wav;
+	static bool _soundLoaded;
+	static Mix_Chunk *_wav;
 };
 
 #endif 	// C8_BUZZER_H

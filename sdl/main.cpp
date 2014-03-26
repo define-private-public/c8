@@ -9,8 +9,9 @@ using namespace std;
 
 // SDL2 includes
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 
-// d8 includes
+// c8 includes
 #include "sys_internals.h"
 #include "display.h"
 
@@ -28,6 +29,12 @@ Display disp(64, 32);
 const int scale = 4;
 const int screenWidth = disp.getWidth() * scale;
 const int screenHeight = disp.getHeight() * scale;
+
+// for the audio
+int audioRate = 22050;
+Uint16 audioFormat = AUDIO_S16;		// 16 Bit Stero
+int audioChannels = 2;
+int audioBuffers = 4096;
 
 
 // Main program function
@@ -64,6 +71,12 @@ int main(int argc, char *argv[]) {
 	renderer = SDL_CreateRenderer(window, -1, 0);
 	if (!renderer) {
 		cerr << "Could not create the renderer." << endl;
+		exit(1);
+	}
+
+	// Setup the Mixer
+	if (Mix_OpenAudio(audioRate, audioFormat, audioChannels, audioBuffers)) {
+		cerr << "Could not setup the audio mixer." << endl;
 		exit(1);
 	}
 
@@ -130,6 +143,7 @@ int main(int argc, char *argv[]) {
 	// Cleanup and exit
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
+	Mix_CloseAudio();
 	SDL_Quit();
 	return 0;
 }

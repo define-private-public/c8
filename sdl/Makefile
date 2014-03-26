@@ -8,7 +8,7 @@ CXX = g++
 CXXFLAGS = 
 HEADERS = display.h sys_internals.h buzzer.h
 SOURCES = main.cpp display.cpp sys_internals.cpp buzzer.cpp
-LIBS = -lSDL2
+LIBS = -lSDL2 -lSDL2_mixer
 
 
 c8_sdl: sys_internals.o display.o buzzer.o main.o
