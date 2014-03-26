@@ -4,7 +4,60 @@
 
 
 #include "sys_internals.h"
+#include <cstring>
 
+
+
+/*== the Memory class ==*/
+
+// Sets up the memory file for us
+Memory::Memory(int memSize) :
+	_memSize(memSize),
+	_programSize(0)
+{
+	// Allocate some fresh memory
+	_mem = new unsigned char[_memSize];
+}
+
+
+// Deconstructor
+Memory::~Memory() {
+	delete[] _mem;
+}
+
+
+Memory::Memory(const Memory &other) :
+	_memSize(other._memSize),
+	_programSize(other.programSize)
+{
+	// Load up some fresh memory and copy the other stuff over
+	_mem = new unsigned char[_memSize];
+	memcpy(_mem, other._mem, _memSize);
+}
+
+
+Memory &Memory::operator=(const Memory &other) { }
+
+
+reg8 Memory::readByte() { }
+
+
+int Memory::writeByte(reg8 data) { }
+
+
+int Memory::loadCHIP8Program(char *filename) { }
+
+
+int Memory::load(unsigned char *data, int size) { }
+
+
+int Memory::dump(unsigned char *dest) { }
+
+
+int Memory::getProgramSize() { }
+
+
+int Memory::getMemorySize() { }
 
 
 /*== the Stack class ==*/
@@ -31,8 +84,7 @@ Stack::Stack(const Stack &other) :
 {
 	// allocate for the stack and copy the other one.
 	_stack = new reg16[_stackSize];
-	for (int i = 0; i < _stackSize; i++)
-		_stack[i] = other._stack[i];
+	memcpy(_stack, other._stack, _stackSize);
 }
 
 
@@ -46,8 +98,7 @@ Stack &Stack::operator=(const Stack &other) {
 
 	// Allocate for the stack and copy the other one
 	_stack = new reg16[_stackSize];
-	for (int i = 0; i < _stackSize; i++)
-		_stack[i] = other._stack[i];
+	memcpy(_stack, other._stack, _stackSize);
 
 	return *this;
 }
