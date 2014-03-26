@@ -31,8 +31,8 @@ class Memory {
 	Memory &operator=(const Memory &other);
 
 	// Memory operations
-	reg8 readByte();
-	int writeByte(reg8 data);
+	reg8 readByte(reg16 addr);
+	int writeByte(reg16 addr, reg8 data);
 	int loadCHIP8Program(char *filename);
 
 	// NOTE: Don't use the methods unless you know what you're doing, thing of them as a back door

@@ -5,6 +5,7 @@
 
 #include "sys_internals.h"
 #include <cstring>
+#include <cstdio>
 
 
 
@@ -28,7 +29,7 @@ Memory::~Memory() {
 
 Memory::Memory(const Memory &other) :
 	_memSize(other._memSize),
-	_programSize(other.programSize)
+	_programSize(other._programSize)
 {
 	// Load up some fresh memory and copy the other stuff over
 	_mem = new unsigned char[_memSize];
@@ -36,28 +37,112 @@ Memory::Memory(const Memory &other) :
 }
 
 
-Memory &Memory::operator=(const Memory &other) { }
+// Assignment operator overload
+Memory &Memory::operator=(const Memory &other) {
+	if (this == &other)
+		return *this;
+
+	// Copy everything over
+	_memSize = other._memSize;
+	_programSize = other._programSize;
+	_mem = new unsigned char[_memSize];
+	memcpy(_mem, other._mem, _memSize);
+
+	return *this;
+}
 
 
-reg8 Memory::readByte() { }
+// Read a single byte from memroy at a specific loation
+//
+// Will return a 0 if the address exetnds upon current memory size
+// Else it will return the byte at that spot in memory
+reg8 Memory::readByte(reg16 addr) {
+	if (addr > _memSize)
+		return 0;
+	
+	return _mem[addr];
+}
 
 
-int Memory::writeByte(reg8 data) { }
+// Write a byte to memory
+//
+// Returns -1 if the location is bad
+// Returns 0 if the byte was successfully written
+int Memory::writeByte(reg16 addr, reg8 data) {
+	if (addr > _memSize)
+		return -1;
+
+	// Write the byte then succed
+	_mem[addr] = data;
+	return 0;
+}
 
 
-int Memory::loadCHIP8Program(char *filename) { }
+// Loads up a CHIP-8 program and places it into the memory file starting at locaiton 0x200
+//
+// Returns -1 if the file cannot be opened
+// Returns 0 on success
+int Memory::loadCHIP8Program(char *filename) {
+	// Vars we need
+	int i;
+	unsigned char c;
+	FILE *c8File = NULL;
+
+	// Open the file first
+	c8File = fopen(filename, "r");
+	if (!c8File)
+		return -1;
+	
+	// Read in each byte
+	c = fgetc(c8File);
+	i = MEM_PROG_START;
+	while ((c != EOF) && (i < _memSize)) {
+		_mem[i++] = c;
+		c = fgetc(c8File);
+	}
+
+	// close the file and exit with success
+	fclose(c8File);
+	return 0;
+}
 
 
-int Memory::load(unsigned char *data, int size) { }
+// Overwrite all of memory with a single dump from a block of data
+//
+// NOTE: Do not use this function unless you've read the code below, so you can know the
+//       ramifications of something so powerful.        (...)       (It's a joke.)
+//
+// Returns 0 on success
+int Memory::load(unsigned char *data, int size) {
+	// First clean out the memory
+	memset(_mem, 0, _memSize);
+	memcpy(_mem, data, size);
+
+	return 0;
+}
 
 
-int Memory::dump(unsigned char *dest) { }
+// Dump all of memory into `dest`.
+//
+// Returns the number of bytes copied into `dest`
+int Memory::dump(unsigned char *dest) {
+	memcpy(dest, _mem, _memSize);
+	return _memSize;
+}
 
 
-int Memory::getProgramSize() { }
+// Returns the current program size in bytes
+int Memory::getProgramSize() {
+	return _programSize;
+}
 
 
-int Memory::getMemorySize() { }
+// Returns the current size of allocated memory
+int Memory::getMemorySize() {
+	return _memSize;
+}
+
+
 
 
 /*== the Stack class ==*/
