@@ -28,10 +28,6 @@ const int scale = 4;
 const int screenWidth = disp.getWidth() * scale;
 const int screenHeight = disp.getHeight() * scale;
 
-// TODO: Need better time measurement
-const unsigned int cpuSpeed = 60;	// Measured in Hertz
-
-
 
 // Main program function
 int main(int argc, char *argv[]) {
@@ -64,25 +60,6 @@ int main(int argc, char *argv[]) {
 		cerr << "Could not create the renderer." << endl;
 		exit(1);
 	}
-
-	// Make a new stack
-	cout << "Size: " << stack.getStackSize() << endl;
-	cout << "SP:   " << stack.getStackPointer() << endl;
-	stack.push(0x200);
-	cout << "SP:   " << stack.getStackPointer() << endl;
-	stack.push(0x500);
-	cout << "SP:   " << stack.getStackPointer() << endl;
-	stack.push(0x67B);
-	cout << "SP:   " << stack.getStackPointer() << endl;
-	cout << stack.pop() << endl;
-	cout << "SP:   " << stack.getStackPointer() << endl;
-	cout << stack.pop() << endl;
-	cout << "SP:   " << stack.getStackPointer() << endl;
-	cout << stack.pop() << endl;
-	cout << "SP:   " << stack.getStackPointer() << endl;
-	cout << stack.pop() << endl;
-	cout << "SP:   " << stack.getStackPointer() << endl;
-
 
 	
 	/*== Main program loop ==*/

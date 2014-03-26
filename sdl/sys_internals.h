@@ -53,11 +53,14 @@ private:
 
 
 /*== Global variables: ==*/
+// CPU speed
+extern int cpuSpeed;	// Measured in Hertz
+
 // Special registers
-extern reg16 I;		// for graphics
+extern reg16 I;			// for graphics
 extern reg16 PC;		// Program Counter
-extern reg8 DT;		// Delay Timer
-extern reg8 ST;		// Sound timer
+extern reg8 DT;			// Delay Timer
+extern reg8 ST;			// Sound timer
 
 // Programmer visible
 extern reg8 V[NUM_GPR];	// The V registers, V[F] though should be treated as a flag
