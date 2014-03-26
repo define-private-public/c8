@@ -4,6 +4,7 @@
 
 
 #include "display.h"
+#include <cstring>
 
 
 // Constructor
@@ -12,7 +13,6 @@ Display::Display(int width, int height) :
 {
 	// Allocate the pixels and clear them out
 	_pixels = new int[_width * _height];
-	clearDisplay();
 }
 
 
@@ -20,9 +20,9 @@ Display::Display(int width, int height) :
 Display::Display(const Display &other) :
 	_width(other._width), _height(other._height)
 {
-	// Allocate the pixels and clear them out
+	// Allocate the pixels and copy them over
 	_pixels = new int[_width * _height];
-	clearDisplay();
+	memcpy(_pixels, other._pixels, _width * _height);
 }
 
 
@@ -41,9 +41,9 @@ Display &Display::operator=(const Display &other) {
 	_width = other._width;
 	_height = other._height;
 
-	// Allocate the pixels and clear them out
+	// Allocate the pixels and copy them over
 	_pixels = new int[_width * _height];
-	clearDisplay();
+	memcpy(_pixels, other._pixels, _width * _height);
 	
 	return *this;
 }
@@ -63,8 +63,7 @@ int Display::getHeight() {
 
 // Clears the screen (i.e. set all pixels to 0)
 void Display::clearDisplay() {
-	for (int i = 0; i < (_width * _height); i++)
-		_pixels[i] = 0;
+	memset(_pixels, 0, _width * _height);
 }
 
 
