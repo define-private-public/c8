@@ -46,7 +46,6 @@ public:
 	int getProgramSize();
 	int getMemorySize();
 
-	// TODO: Add in CHIP-8 Interpreter & Font?
 	// TODO: Add in Dump to file?
 
 private:
