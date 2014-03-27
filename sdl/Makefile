@@ -17,11 +17,11 @@ c8_sdl: sys_internals.o display.o buzzer.o main.o perform_operation.o
 sys_internals.o: sys_internals.h sys_internals.cpp
 	$(CXX) -c sys_internals.cpp -o sys_internals.o $(CXXFLAGS)
 
-perform_operation.o: sys_internals.o perform_operation.h perform_operation.cpp
-	$(CXX) -c perform_operation.cpp -o perform_operation.o $(CXXFLAGS)
-
 display.o: display.h display.cpp
 	$(CXX) -c display.cpp -o display.o $(CXXFLAGS)
+
+perform_operation.o: sys_internals.o display.o perform_operation.h perform_operation.cpp
+	$(CXX) -c perform_operation.cpp -o perform_operation.o $(CXXFLAGS)
 
 buzzer.o: buzzer.h buzzer.cpp
 	$(CXX) -c buzzer.cpp -o buzzer.o $(CXXFLAGS)
@@ -36,3 +36,8 @@ clean:
 realclean: clean
 	rm -f c8_sdl
 	rm -f a.out		# Caused by temp execs
+
+
+#all: $(HEADERS) $(SOURCES)
+#	$(CXX) -o a.out $(SOURCES) $(CXXFLAGS) $(LIBS)
+

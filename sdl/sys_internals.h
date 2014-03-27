@@ -13,6 +13,9 @@
 #define MEM_4KB 0x1000				// Defualt memory size
 #define MEM_FONT_START 0x050		// Start of the built in CHIP-8 Font
 #define MEM_PROG_START 0x200		// Default program starting point
+#define INST_SIZE 2					// In bytes, size of an instruction
+#define MEM_FONT_WIDTH 8			// Default font width
+#define MEM_FONT_HEIGHT 5			// Default font height
 
 
 // Sometypedefs, though possibly unecessary, kind of useful

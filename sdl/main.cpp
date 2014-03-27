@@ -24,6 +24,7 @@ using namespace std;
 
 // for the screen
 Display disp(64, 32);
+Display &curDisplay = disp;
 const int scale = 4;
 const int screenWidth = disp.getWidth() * scale;
 const int screenHeight = disp.getHeight() * scale;
