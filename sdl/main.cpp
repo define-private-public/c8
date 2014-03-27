@@ -21,10 +21,6 @@ using namespace std;
 #define BEEP_PATH "../beep.wav"
 
 
-// System internals
-Stack stack(STACK_SIZE);
-Memory mem(MEM_4KB);
-
 // for the screen
 Display disp(64, 32);
 const int scale = 4;
@@ -103,10 +99,6 @@ int main(int argc, char *argv[]) {
 				// ESC key press
 				if (event.key.keysym.sym == SDLK_ESCAPE)
 					quit = true;
-
-				// Buzzer Turn on
-				if (event.key.keysym.sym == SDLK_b)
-					ST = 0xFF;	
 			}
 		}
 

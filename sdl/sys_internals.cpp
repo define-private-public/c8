@@ -391,3 +391,8 @@ reg8 ST;			// Sound timer
 // Programmer visible
 reg8 V[NUM_GPR];	
 
+// Other system components
+Stack stack(DEFAULT_STACK_SIZE);
+Memory mem(MEM_4KB);
+
+
