@@ -35,11 +35,11 @@ int audioChannels = 1;
 int audioBuffers = 4096;
 
 // Others
-reg16 inst;
-//PC = 0x200;
-// TODO: pickup here
-// TODO: Add in input
-// TODO: CPU object
+Memory mem(MEM_4KB);
+Stack stack(DEFAULT_STACK_SIZE);
+CPU cpu(CPU_DEFAULT_CLOCK_SPEED);
+
+
 
 // Main program function
 int main(int argc, char *argv[]) {
@@ -93,6 +93,10 @@ int main(int argc, char *argv[]) {
 		pixelRects[i].w = pixelRects[i].h = scale;
 
 
+	// Some last minute CPU things
+	cpu.setMemory(&mem);
+	cpu.setStack(&stack);
+	cpu.setDisplay(&disp);
 	
 	/*== Main program loop ==*/
 	SDL_ShowCursor(0);
@@ -112,24 +116,12 @@ int main(int argc, char *argv[]) {
 
 		/*== Timers ==*/
 		// Buzzer
-		if (ST > 0) {
+		if (cpu.getST() > 0)
 			buzzer.play();
-			ST--;
-		} else
+		else
 			buzzer.stop();
 
-		// Delay
-		if (DT > 0)
-			DT--;
-
-		
-		/*== Fetch, Decode, and Execute ==*/
-//		inst = mem.readByte(PC) << 8;
-//		inst |= mem.readByte(PC + 1);
-//		if (performOperation(inst) != 0) {
-//			cerr << "Bad instruction at: " << inst << endl;
-//			exit(1);
-//		}
+		cpu.decrementTimers();
 
 
 		/*== Drawing ==*/
@@ -154,7 +146,7 @@ int main(int argc, char *argv[]) {
 
 		// Flip the screen and hold
 		SDL_RenderPresent(renderer);
-		SDL_Delay(1000 / cpuSpeed);		// In milliseconds
+		SDL_Delay(1000 / cpu.getClockSpeed());		// In milliseconds
 	}
 
 	// Cleanup and exit

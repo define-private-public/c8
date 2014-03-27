@@ -376,21 +376,3 @@ int Stack::getStackPointer() {
 }
 
 
-/*== Global variables: ==*/
-// CPU speed
-int cpuSpeed = 60;	// Measured in Hertz
-
-// Special registers
-reg16 I;			// for graphics
-reg16 PC;			// Program Counter
-reg8 DT;			// Delay Timer
-reg8 ST;			// Sound timer
-
-// Programmer visible
-reg8 V[NUM_GPR];	
-
-// Other system components
-Stack stack(DEFAULT_STACK_SIZE);
-Memory mem(MEM_4KB);
-
-

@@ -8,7 +8,6 @@
 #ifndef C8_SYS_INTERNALS_H
 #define C8_SYS_INTERNALS_H
 
-#define NUM_GPR 16 					// Number of General purpose registers
 #define DEFAULT_STACK_SIZE 16		// Defualt stack size for more systems
 #define MEM_4KB 0x1000				// Defualt memory size
 #define MEM_FONT_START 0x050		// Start of the built in CHIP-8 Font
@@ -88,24 +87,6 @@ private:
 	int _stackSize;
 	reg16 *_stack;
 };
-
-
-/*== Global variables: ==*/
-// CPU speed
-extern int cpuSpeed;	// Measured in Hertz
-
-// Special registers
-extern reg16 I;			// for graphics
-extern reg16 PC;		// Program Counter
-extern reg8 DT;			// Delay Timer
-extern reg8 ST;			// Sound timer
-
-// Programmer visible
-extern reg8 V[NUM_GPR];	// The V registers, V[F] though should be treated as a flag
-
-// Other globlals
-extern Stack stack;
-extern Memory mem;
 
 
 #endif	// C8_SYS_INTERNALS_H
