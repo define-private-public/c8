@@ -55,6 +55,16 @@ int main(int argc, char *argv[]) {
 	SDL_Rect pixelRects[disp.getWidth() * disp.getHeight()];
 	int pixelsOn = 0;
 
+
+	// Print out a use message
+	if (argc < 2) {
+		cout << "Need to specify a ROM file" << endl;
+		cout << endl;
+		cout << "Usage:" << endl;
+		cout << argv[0] << " <CHIP-8 ROM>" << endl;
+		exit(0);
+	}
+
 	
 	/*== Initialize the SDL stuff ==*/
 	// Init all of the sub systems
@@ -97,6 +107,16 @@ int main(int argc, char *argv[]) {
 	cpu.setMemory(&mem);
 	cpu.setStack(&stack);
 	cpu.setDisplay(&disp);
+
+	// Load up the file specified
+	mem.loadCHIP8Program(argv[1]);
+
+	if (!cpu.readyToRun()) {
+		cerr << "The CPU object reported that it wasn't ready to run." << endl;
+		cerr << "Memory, Stack, or Display objects were not linked up properly." << endl;
+		exit(1);
+	}
+
 	
 	/*== Main program loop ==*/
 	SDL_ShowCursor(0);
@@ -124,6 +144,10 @@ int main(int argc, char *argv[]) {
 		cpu.decrementTimers();
 
 
+		/*== Fetch, Decode, Execute ==*/
+		cpu.executeNextOperation();
+
+
 		/*== Drawing ==*/
 		// Queue up the pixels that need to be drawn
 		pixelsOn = 0;
@@ -141,8 +165,6 @@ int main(int argc, char *argv[]) {
 		SDL_RenderClear(renderer);
 		SDL_SetRenderDrawColor(renderer, onClr.r, onClr.g, onClr.b, 0xFF);
 		SDL_RenderFillRects(renderer, pixelRects, pixelsOn);
-
-
 
 		// Flip the screen and hold
 		SDL_RenderPresent(renderer);

@@ -27,6 +27,10 @@ CPU::~CPU() {
 //
 // Will return 0 on success, -1 on bad things
 int CPU::executeNextOperation() {
+	// Get the next instruction
+	if (_fetch())
+		return -1;
+
 	// For decoding the instructoin
 	int opc = (_curInst & 0xF000) >> 12;
 	int nnn = _curInst & 0x0FFF;			// 12 bit mem. addr.
