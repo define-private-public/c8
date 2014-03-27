@@ -1,7 +1,5 @@
 TODO list for the SDL2 CHIP-8 Emualtor
 
-1. Establish Output
-	2. Audio
 2. Establish Internals
 3. Establish Input
 4. Work on OP-Codes

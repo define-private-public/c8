@@ -89,16 +89,6 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i < (disp.getWidth() * disp.getHeight()); i++)
 		pixelRects[i].w = pixelRects[i].h = scale;
 
-	unsigned char spr[5];
-	for (int i = 8; i < 16; i++) {
-		spr[0] = mem.readByte(MEM_FONT_START + (i * 5) + 0);
-		spr[1] = mem.readByte(MEM_FONT_START + (i * 5) + 1);
-		spr[2] = mem.readByte(MEM_FONT_START + (i * 5) + 2);
-		spr[3] = mem.readByte(MEM_FONT_START + (i * 5) + 3);
-		spr[4] = mem.readByte(MEM_FONT_START + (i * 5) + 4);
-		
-		disp.drawSprite((i - 8) * 8 + 1, 1, 5, spr);
-	}
 
 	
 	/*== Main program loop ==*/
@@ -121,12 +111,19 @@ int main(int argc, char *argv[]) {
 		}
 
 
-		/*== Audio ==*/
+		/*== Timers ==*/
+		// Buzzer
 		if (ST > 0) {
 			buzzer.play();
 			ST--;
 		} else
 			buzzer.stop();
+
+		// Delay
+		if (DT > 0)
+			DT--;
+
+
 
 		/*== Drawing ==*/
 		// Queue up the pixels that need to be drawn
