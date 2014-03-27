@@ -15,7 +15,7 @@ using namespace std;
 #include "sys_internals.h"
 #include "display.h"
 #include "buzzer.h"
-#include "perform_operation.h"
+#include "cpu.h"
 
 
 // Defitions
@@ -24,7 +24,6 @@ using namespace std;
 
 // for the screen
 Display disp(64, 32);
-Display &curDisplay = disp;
 const int scale = 4;
 const int screenWidth = disp.getWidth() * scale;
 const int screenHeight = disp.getHeight() * scale;
@@ -35,6 +34,12 @@ Uint16 audioFormat = AUDIO_S16;		// 16 Bit Stero
 int audioChannels = 1;
 int audioBuffers = 4096;
 
+// Others
+reg16 inst;
+//PC = 0x200;
+// TODO: pickup here
+// TODO: Add in input
+// TODO: CPU object
 
 // Main program function
 int main(int argc, char *argv[]) {
@@ -117,6 +122,14 @@ int main(int argc, char *argv[]) {
 		if (DT > 0)
 			DT--;
 
+		
+		/*== Fetch, Decode, and Execute ==*/
+//		inst = mem.readByte(PC) << 8;
+//		inst |= mem.readByte(PC + 1);
+//		if (performOperation(inst) != 0) {
+//			cerr << "Bad instruction at: " << inst << endl;
+//			exit(1);
+//		}
 
 
 		/*== Drawing ==*/

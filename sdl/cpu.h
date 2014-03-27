@@ -1,4 +1,4 @@
-// File:         perform_operation.h
+// File:         cpu.h
 // Author:       Benjamin N. Summerton
 // Description:  The "heart," of the CPU that takes in an OP-Code, then will perform that operation
 
@@ -12,9 +12,5 @@
 //
 // Normally will return 0 on a success, but a -1 if something went bad
 int performOperation(reg16 inst);
-
-
-// We need a reference to the current display in use
-extern Display &curDisplay;
 
 

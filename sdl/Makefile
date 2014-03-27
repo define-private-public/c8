@@ -6,13 +6,13 @@
 CXX = g++
 #CXXFLAGS = -ggdb
 CXXFLAGS = 
-HEADERS = display.h sys_internals.h buzzer.h perform_operation.h
-SOURCES = main.cpp display.cpp sys_internals.cpp buzzer.cpp perform_operation.cpp
+HEADERS = display.h sys_internals.h buzzer.h cpu.h
+SOURCES = main.cpp display.cpp sys_internals.cpp buzzer.cpp cpu.cpp
 LIBS = -lSDL2 -lSDL2_mixer
 
 
-c8_sdl: sys_internals.o display.o buzzer.o main.o perform_operation.o
-	$(CXX) -o c8_sdl main.o sys_internals.o buzzer.o display.o perform_operation.o $(LIBS) $(CXXFLAGS)
+c8_sdl: sys_internals.o display.o buzzer.o main.o cpu.o
+	$(CXX) -o c8_sdl main.o sys_internals.o buzzer.o display.o cpu.o $(LIBS) $(CXXFLAGS)
 
 sys_internals.o: sys_internals.h sys_internals.cpp
 	$(CXX) -c sys_internals.cpp -o sys_internals.o $(CXXFLAGS)
@@ -20,8 +20,8 @@ sys_internals.o: sys_internals.h sys_internals.cpp
 display.o: display.h display.cpp
 	$(CXX) -c display.cpp -o display.o $(CXXFLAGS)
 
-perform_operation.o: sys_internals.o display.o perform_operation.h perform_operation.cpp
-	$(CXX) -c perform_operation.cpp -o perform_operation.o $(CXXFLAGS)
+cpu.o: sys_internals.o display.o cpu.h cpu.cpp
+	$(CXX) -c cpu.cpp -o cpu.o $(CXXFLAGS)
 
 buzzer.o: buzzer.h buzzer.cpp
 	$(CXX) -c buzzer.cpp -o buzzer.o $(CXXFLAGS)

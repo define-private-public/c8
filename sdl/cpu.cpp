@@ -1,9 +1,9 @@
-// File:         perform_operation.cpp
+// File:         cpu.cpp
 // Author:       Benjamin N. Summerton
-// Description:  Implementation for `perform_operation.h`
+// Description:  Implementation for `cpu.h`
 
 
-#include "perform_operation.h"
+#include "cpu.h"
 #include <cstdlib>
 
 
@@ -30,7 +30,7 @@ int performOperation(reg16 inst) {
 			switch (nn) {
 				case 0xE0:
 					// Cear the screen
-					curDisplay.clearDisplay();
+//					curDisplay.clearDisplay();
 					PC += INST_SIZE;
 					break;
 
@@ -93,7 +93,82 @@ int performOperation(reg16 inst) {
 			break;
 
 		case 0x8:
-			// TODO: Comeback later, arithmetic
+			/*== Arithmetic operaitons ==*/
+			switch (n) {
+				case 0x0:
+					// Store the value of V[y] into V[x]
+					V[x] = V[y];
+					PC += INST_SIZE;
+					break;
+
+				case 0x1:
+					// OR the value of V[x] with V[y]
+					V[x] |= V[y];
+					PC += INST_SIZE;
+					break;
+
+				case 0x2:
+					// AND the value of V[x] with V[y]
+					V[x] &= V[y];
+					PC += INST_SIZE;
+					break;
+
+				case 0x3:
+					// XOR the value of V[x] with V[y]
+					V[x] ^= V[y];
+					PC += INST_SIZE;
+					break;
+
+				case 0x4:
+					// Add the value of V[y] to V[x], set V[F] to 1 is there is a carry
+					if ((V[x] + V[y]) > 0xFF)
+						V[0xF] = 1;
+					else
+						V[0xF] = 0;
+
+					V[x] += V[y];
+					PC += INST_SIZE;
+					break;
+
+				case 0x5:
+					// Subtract the value of V[y] from V[x], set V[F] to 1 if there isn't a borrow
+					if ((V[x] - V[y]) < 0)
+						V[0xF] = 0;
+					else
+						V[0xF] = 1;
+					
+					V[x] -= V[y];
+					PC += INST_SIZE;
+					break;
+
+				case 0x6:
+					// Shift the value in V[y] over by one bit to the right, store it in V[x], and set V[F] to
+					// the value of the LSB in V[y] before the shift
+					V[0xF] = V[y] & 0x1;	// Get the LSB
+					V[x] = V[y] >> 1;
+					PC += INST_SIZE;
+					break;
+
+				case 0x7:
+					// Set V[x] to the value of V[y] minus V[x]; set V[F] to 1 if there isn't a borrow
+					if ((V[y] - V[x]) < 0)
+						V[0xF] = 0;
+					else
+						V[0xF] = 1;
+					
+					V[x] = V[y] - V[x];
+					PC += INST_SIZE;
+					break;
+
+				case 0xE:
+					// Shift the value in V[y] over by one bit to the left, store it in V[x], and set V[F] to
+					// the value of the MSB in V[y] before the shift
+					V[0xF] = V[y] & 0x80;	// Get the MSB
+					V[x] = V[y] << 1;
+					PC += INST_SIZE;
+					break;
+
+			}
 			break;
 
 		case 0x9:
@@ -131,7 +206,7 @@ int performOperation(reg16 inst) {
 				spriteData[i] = mem.readByte(I + i);
 
 			// Draw the sprite and set the V[F] register if there was a collision
-			V[0xF] = curDisplay.drawSprite(V[x], V[y], n, spriteData);
+//			V[0xF] = curDisplay.drawSprite(V[x], V[y], n, spriteData);
 			PC += INST_SIZE;
 			break;
 
@@ -217,6 +292,9 @@ int performOperation(reg16 inst) {
 					I += (x + 1);
 					PC += INST_SIZE;
 					break;
+
+				default:
+					return -1;
 			}
 			break;
 
