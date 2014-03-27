@@ -14,6 +14,7 @@ using namespace std;
 // c8 includes
 #include "sys_internals.h"
 #include "display.h"
+#include "buzzer.h"
 
 
 // Defitions
@@ -31,9 +32,9 @@ const int screenWidth = disp.getWidth() * scale;
 const int screenHeight = disp.getHeight() * scale;
 
 // for the audio
-int audioRate = 22050;
+int audioRate = 44100;
 Uint16 audioFormat = AUDIO_S16;		// 16 Bit Stero
-int audioChannels = 2;
+int audioChannels = 1;
 int audioBuffers = 4096;
 
 
@@ -82,6 +83,7 @@ int main(int argc, char *argv[]) {
 
 	
 	/*== Other Setup Junk ==*/
+	Buzzer buzzer(BEEP_PATH);	// Needs to be setup after audio device has been opened
 
 	// Setup the pixel rectangle dimensions
 	for (int i = 0; i < (disp.getWidth() * disp.getHeight()); i++)
@@ -107,13 +109,24 @@ int main(int argc, char *argv[]) {
 			if (event.type == SDL_QUIT)
 				quit = true;
 
-			// ESC key press
 			if (event.type == SDL_KEYUP) {
-				if (event.key.keysym.sym = SDLK_ESCAPE)
+				// ESC key press
+				if (event.key.keysym.sym == SDLK_ESCAPE)
 					quit = true;
+
+				// Buzzer Turn on
+				if (event.key.keysym.sym == SDLK_b)
+					ST = 0xFF;	
 			}
 		}
 
+
+		/*== Audio ==*/
+		if (ST > 0) {
+			buzzer.play();
+			ST--;
+		} else
+			buzzer.stop();
 
 		/*== Drawing ==*/
 		// Queue up the pixels that need to be drawn

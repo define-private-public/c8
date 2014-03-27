@@ -18,10 +18,11 @@ public:
 	~Buzzer();
 
 	void play();
+	void stop();
 
 private:
-	static bool _soundLoaded;
-	static Mix_Chunk *_wav;
+	Mix_Chunk *_wav;
+	int _channel;
 };
 
 #endif 	// C8_BUZZER_H
