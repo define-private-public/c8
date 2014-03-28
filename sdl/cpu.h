@@ -23,9 +23,10 @@ public:
 	~CPU();
 
 	// CPU operations
-	int executeNextOperation();				// Decode & Execute
+	int executeNextOperation();			// Decode & Execute
 	void decrementTimers();
 	bool readyToRun();
+	void getKeyPress(reg8 key);			// Technically should be in the lower list, but it's a CPU OP
 
 	// Mutators
 	void setMemory(Memory *mem);
@@ -40,6 +41,9 @@ public:
 	reg8 getV(int id);
 	int getClockSpeed();
 	reg16 getCurInstruction();
+	bool waitingForInput();
+
+	bool keyDown[16];			// Technically not part of the "CPU," but needed for some instructions
 
 
 private:
@@ -61,6 +65,8 @@ private:
 
 	// Other stuff
 	reg16 _curInst;
+	bool _waitingForInput;
+	int _inputReg;
 
 	// Internal functions
 	int _fetch();			// Sets the next instruction for us

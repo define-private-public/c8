@@ -17,9 +17,22 @@ using namespace std;
 #include "buzzer.h"
 #include "cpu.h"
 
-
 // Defitions
 #define BEEP_PATH "../beep.wav"
+
+/*== Key Map:
+*
+*      COSMAC:          Keyboard:
+*
+*   1 | 2 | 3 | C      1 | 2 | 3 | 4
+*  ---------------    ---------------
+*   4 | 5 | 6 | D      Q | W | E | R
+*  ---------------    ---------------
+*   7 | 8 | 9 | E      A | S | D | F
+*  ---------------    ---------------
+*   A | 0 | B | F      Z | X | C | V
+*
+==*/
 
 
 // for the screen
@@ -130,6 +143,211 @@ int main(int argc, char *argv[]) {
 				// ESC key press
 				if (event.key.keysym.sym == SDLK_ESCAPE)
 					quit = true;
+
+				// not for the block one, just general, key up?
+				switch (event.key.keysym.sym) {
+					case SDLK_1:
+						cpu.keyDown[0x1] = false;
+						break;
+
+					case SDLK_2:
+						cpu.keyDown[0x2] = false;
+						break;
+
+					case SDLK_3:
+						cpu.keyDown[0x3] = false;
+						break;
+
+					case SDLK_4:
+						cpu.keyDown[0xC] = false;
+						break;
+
+					case SDLK_q: 
+						cpu.keyDown[0x4] = false;
+						break;
+
+					case SDLK_w:
+						cpu.keyDown[0x5] = false;
+						break;
+
+					case SDLK_e:
+						cpu.keyDown[0x6] = false;
+						break;
+
+					case SDLK_r:
+						cpu.keyDown[0xD] = false;
+						break;
+
+					case SDLK_a:
+						cpu.keyDown[0x7] = false;
+						break;
+
+					case SDLK_s:
+						cpu.keyDown[0x8] = false;
+						break;
+
+					case SDLK_d:
+						cpu.keyDown[0x9] = false;
+						break;
+
+					case SDLK_f:
+						cpu.keyDown[0xE] = false;
+						break;
+
+					case SDLK_z:
+						cpu.keyDown[0xA] = false;
+						break;
+
+					case SDLK_x:
+						cpu.keyDown[0x0] = false;
+						break;
+
+					case SDLK_c:
+						cpu.keyDown[0xB] = false;
+						break;
+
+					case SDLK_v:
+						cpu.keyDown[0xF] = false;
+						break;
+				}
+			}
+
+			if (event.type == SDL_KEYDOWN) {
+				// In the case we have a hold because of input get something
+				if (cpu.waitingForInput()) {
+					switch (event.key.keysym.sym) {
+						case SDLK_1: 
+							cpu.getKeyPress(0x1);
+							break;
+
+						case SDLK_2:
+							cpu.getKeyPress(0x2);
+							break;
+
+						case SDLK_3:
+							cpu.getKeyPress(0x3);
+							break;
+
+						case SDLK_4:
+							cpu.getKeyPress(0xC);
+							break;
+
+						case SDLK_q: 
+							cpu.getKeyPress(0x4);
+							break;
+
+						case SDLK_w:
+							cpu.getKeyPress(0x5);
+							break;
+
+						case SDLK_e:
+							cpu.getKeyPress(0x6);
+							break;
+
+						case SDLK_r:
+							cpu.getKeyPress(0xD); 
+							break;
+
+						case SDLK_a:
+							cpu.getKeyPress(0x7);
+							break;
+
+						case SDLK_s:
+							cpu.getKeyPress(0x8);
+							break;
+
+						case SDLK_d:
+							cpu.getKeyPress(0x9);
+							break;
+
+						case SDLK_f:
+							cpu.getKeyPress(0xE);
+							break;
+
+						case SDLK_z:
+							cpu.getKeyPress(0xA);
+							break;
+
+						case SDLK_x:
+							cpu.getKeyPress(0x0);
+							break;
+
+						case SDLK_c:
+							cpu.getKeyPress(0xB);
+							break;
+
+						case SDLK_v:
+							cpu.getKeyPress(0xF); 
+							break;
+					}
+				}
+
+				// not for the block one, just general, key down?
+				switch (event.key.keysym.sym) {
+					case SDLK_1:
+						cpu.keyDown[0x1] = true;
+						break;
+
+					case SDLK_2:
+						cpu.keyDown[0x2] = true;
+						break;
+
+					case SDLK_3:
+						cpu.keyDown[0x3] = true;
+						break;
+
+					case SDLK_4:
+						cpu.keyDown[0xC] = true;
+						break;
+
+					case SDLK_q: 
+						cpu.keyDown[0x4] = true;
+						break;
+
+					case SDLK_w:
+						cpu.keyDown[0x5] = true;
+						break;
+
+					case SDLK_e:
+						cpu.keyDown[0x6] = true;
+						break;
+
+					case SDLK_r:
+						cpu.keyDown[0xD] = true;
+						break;
+
+					case SDLK_a:
+						cpu.keyDown[0x7] = true;
+						break;
+
+					case SDLK_s:
+						cpu.keyDown[0x8] = true;
+						break;
+
+					case SDLK_d:
+						cpu.keyDown[0x9] = true;
+						break;
+
+					case SDLK_f:
+						cpu.keyDown[0xE] = true;
+						break;
+
+					case SDLK_z:
+						cpu.keyDown[0xA] = true;
+						break;
+
+					case SDLK_x:
+						cpu.keyDown[0x0] = true;
+						break;
+
+					case SDLK_c:
+						cpu.keyDown[0xB] = true;
+						break;
+
+					case SDLK_v:
+						cpu.keyDown[0xF] = true;
+						break;
+				}
 			}
 		}
 

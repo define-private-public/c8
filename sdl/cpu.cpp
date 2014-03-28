@@ -5,15 +5,20 @@
 
 #include "cpu.h"
 #include <cstdlib>
+#include <iostream>
+using namespace std;
 
 
 // Constructor
 CPU::CPU(int clockSpeed) :
 	_clockSpeed(clockSpeed),
 	_I(MEM_FONT_START),
-	_PC(MEM_PROG_START)
+	_PC(MEM_PROG_START),
+	_waitingForInput(false)
 {	
 	// Everything else should be NULL or 0
+	for (int i = 0; i < 16; i++)
+		keyDown[i] = false;
 }
 
 
@@ -25,8 +30,12 @@ CPU::~CPU() {
 // CPU operations
 // Performs an operation for the system
 //
-// Will return 0 on success, -1 on bad things
+// Will return 0 on success (or waiting for input), -1 on bad things
 int CPU::executeNextOperation() {
+	// Make sure we don't do anything until we are not waiting for input
+	if (waitingForInput())
+		return 0;
+
 	// Get the next instruction
 	if (_fetch())
 		return -1;
@@ -231,7 +240,27 @@ int CPU::executeNextOperation() {
 			break;
 
 		case 0xE:
-			// TODO: Input, comeback
+			// Skip based upon input
+			switch (nn) {
+				case 0x9E:
+					// Skip the next inst. if the Key for the hex value in V[x] is pressed
+					if (keyDown[_V[x]])
+						_PC += INST_SIZE;
+
+					_PC += INST_SIZE;
+					break;
+
+				case 0xA1:
+					// Skip the next inst. if the Key for the hex value in V[x] is released
+					if (!keyDown[_V[x]])
+						_PC += INST_SIZE;
+
+					_PC += INST_SIZE;
+					break;
+
+				default:
+					return -1;
+			}
 			break;
 
 		case 0xF:
@@ -244,11 +273,16 @@ int CPU::executeNextOperation() {
 					break;
 
 				case 0x0A:
-					// TODO: Input comback
+					// Wait for a keypress and then store the value of the press in V[x]
+					// This will set a variable, and the register will be modified in another
+					// public function
+					_waitingForInput = true;
+					_inputReg = x;
+					_PC += INST_SIZE;
 					break;
 
 				case 0x15:
-					// Set the delay timer to the value in _V[x]
+					// Set the delay timer to the value in V[x]
 					_DT = _V[x];
 					_PC += INST_SIZE;
 					break;
@@ -328,6 +362,9 @@ int CPU::executeNextOperation() {
 
 // Decrement the delay and sound timers
 void CPU::decrementTimers() {
+	if (waitingForInput())
+		return;
+
 	// Sound
 	if (_ST > 0)
 		_ST--;
@@ -342,6 +379,21 @@ void CPU::decrementTimers() {
 bool CPU::readyToRun() {
 	return ((_curMem != NULL) && (_curStack != NULL) && (_curDisplay != NULL));
 }
+
+
+// Use this function to set an IO value for a register
+// Also turns of the `_waitingForInput` flag
+//
+// `key` should only be a value between 0x0 and 0xF (inclusive)
+void CPU::getKeyPress(reg8 key) {
+	// Safety check
+	if (!waitingForInput())
+		return;
+
+	_V[_inputReg] = key;
+	_waitingForInput = false;
+}
+
 
 /*== Mutators ==*/
 // Set the memory device we will use
@@ -404,6 +456,12 @@ int CPU::getClockSpeed() {
 // Gets the instruction that we just executed
 reg16 CPU::getCurInstruction() {
 	return _curInst;
+}
+
+
+// Sees if we are waiting for a keypad press
+bool CPU::waitingForInput() {
+	return _waitingForInput;
 }
 
 
