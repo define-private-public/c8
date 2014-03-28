@@ -6,7 +6,7 @@
 #include "buzzer.h"
 
 // Constructor
-Buzzer::Buzzer(char *filename) :
+Buzzer::Buzzer(const char *filename) :
 	_channel(-1)
 {
 	_wav = Mix_LoadWAV(filename);

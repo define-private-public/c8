@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 	SDL_Event event;
-	SDL_Color onClr = {0x00, 0xD0, 0x00}, offClr = {0x00, 0x20, 0x00};
+	SDL_Color onClr = {0xE0, 0xEE, 0xEE}, offClr = {0x00, 0x00, 0x9C};
 	SDL_AudioSpec beepSpec;
 	
 	// For graphics

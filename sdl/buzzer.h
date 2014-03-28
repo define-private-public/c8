@@ -14,7 +14,7 @@
 class Buzzer {
 public:
 	// Constructors
-	Buzzer(char *filename);
+	Buzzer(const char *filename);
 	~Buzzer();
 
 	void play();
