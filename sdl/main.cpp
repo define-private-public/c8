@@ -16,6 +16,7 @@ using namespace std;
 #include "display.h"
 #include "buzzer.h"
 #include "cpu.h"
+#include "save_state.h"
 
 // Defitions
 #define BEEP_PATH "../beep.wav"
