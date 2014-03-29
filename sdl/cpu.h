@@ -47,6 +47,9 @@ public:
 	// Varibles
 	bool keyDown[16];			// Technically not part of the "CPU," but needed for some instructions
 
+	// Save state functions
+	void load(reg16 pc, reg16 i, reg8 dt, reg8 st, reg8 *v, unsigned char waitingForInput, unsigned char inputReg);
+
 
 private:
 	int _clockSpeed;			// Measured in Hertz

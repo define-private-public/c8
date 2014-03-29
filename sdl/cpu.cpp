@@ -5,6 +5,7 @@
 
 #include "cpu.h"
 #include <cstdlib>
+#include <cstring>
 #include <iostream>
 using namespace std;
 
@@ -484,4 +485,15 @@ int CPU::_fetch() {
 	return 0;
 }
 
+
+// Used for loading up a save state
+void CPU::load(reg16 pc, reg16 i, reg8 dt, reg8 st, reg8 *v, unsigned char waitingForInput, unsigned char inputReg) {
+	_PC = pc;
+	_I = i;
+	_DT = dt;
+	_ST = st;
+	memcpy(_V, v, CPU_NUM_GPR);
+	_waitingForInput = (waitingForInput == 1);
+	_inputReg = inputReg;
+}
 

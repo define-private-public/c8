@@ -302,6 +302,16 @@ int main(int argc, char *argv[]) {
 
 						break;
 
+					case SDLK_o:
+						// load state save
+						if (saveStatesOn) {
+							if (loadSaveState(argv[2], &cpu, &stack, &mem, &disp) == 0)
+								cout << "Loaded save state `" << argv[2] << "`." << endl;
+							else
+								cout << "Error loading save state `" << argv[2] << "`." << endl;
+						}
+
+						break;
 					case SDLK_1:
 						cpu.keyDown[0x1] = true;
 						break;
