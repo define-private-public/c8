@@ -459,6 +459,12 @@ reg16 CPU::getCurInstruction() {
 }
 
 
+// Gets which register we are waiting to put input into
+int getInputReg() {
+	return _inputReg;
+}
+
+
 // Sees if we are waiting for a keypad press
 bool CPU::waitingForInput() {
 	return _waitingForInput;

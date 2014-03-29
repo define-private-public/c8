@@ -34,19 +34,18 @@ public:
 	void setDisplay(Display *display);
 
 	// Accessors
-	reg16 getI();
 	reg16 getPC();
+	reg16 getI();
 	reg8 getDT();
 	reg8 getST();
 	reg8 getV(int id);
 	int getClockSpeed();
 	reg16 getCurInstruction();
 	bool waitingForInput();
+	int getInputReg();			// Needed for savestate
 
 	// Varibles
 	bool keyDown[16];			// Technically not part of the "CPU," but needed for some instructions
-
-	// Save state functions
 
 
 private:
