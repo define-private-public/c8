@@ -460,7 +460,7 @@ reg16 CPU::getCurInstruction() {
 
 
 // Gets which register we are waiting to put input into
-int getInputReg() {
+int CPU::getInputReg() {
 	return _inputReg;
 }
 

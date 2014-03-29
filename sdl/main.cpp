@@ -64,6 +64,7 @@ int main(int argc, char *argv[]) {
 	SDL_Event event;
 	SDL_Color onClr = {0xE0, 0xEE, 0xEE}, offClr = {0x00, 0x00, 0x9C};
 	SDL_AudioSpec beepSpec;
+	bool saveStatesOn = false;
 	
 	// For graphics
 	SDL_Rect pixelRects[disp.getWidth() * disp.getHeight()];
@@ -78,6 +79,10 @@ int main(int argc, char *argv[]) {
 		cout << argv[0] << " <CHIP-8 ROM>" << endl;
 		exit(0);
 	}
+
+	// Turn on save states, third arguement is the save state file
+	if (argc >= 3) 
+		saveStatesOn = true;
 
 	
 	/*== Initialize the SDL stuff ==*/
@@ -286,6 +291,17 @@ int main(int argc, char *argv[]) {
 
 				// not for the block one, just general, key down?
 				switch (event.key.keysym.sym) {
+					case SDLK_p:
+						// Save state save
+						if (saveStatesOn) {
+							if (writeSaveState(argv[2], &cpu, &stack, &mem, &disp) == 0)
+								cout << "Save state written to `" << argv[2] << "`." << endl;
+							else
+								cout << "Error writing save state to `" << argv[2] << "`." << endl;
+						}
+
+						break;
+
 					case SDLK_1:
 						cpu.keyDown[0x1] = true;
 						break;

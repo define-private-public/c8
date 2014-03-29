@@ -1,5 +1,6 @@
 # Temporary files
 *.sw*
+*.c8s
 
 # Object files
 *.o
