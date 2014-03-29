@@ -134,6 +134,7 @@ int main(int argc, char *argv[]) {
 	/*== Main program loop ==*/
 	SDL_ShowCursor(0);
 	while (!quit) {
+		/*== Input Loop ==*/
 		while (SDL_PollEvent(&event)) {
 			// Window exit
 			if (event.type == SDL_QUIT)

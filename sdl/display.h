@@ -37,6 +37,10 @@ public:
 	int setPixel(int x, int y, int value);		// Bad convienece method
 	int drawSprite(int x, int y, int sHeight, unsigned char sprite[]);
 
+	// For save states
+	void load(int width, int height, unsigned char *pixels);
+	unsigned char *dump();		// Dumps the pixel data
+
 
 
 private:

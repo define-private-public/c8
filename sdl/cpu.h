@@ -43,15 +43,18 @@ public:
 	reg16 getCurInstruction();
 	bool waitingForInput();
 
+	// Varibles
 	bool keyDown[16];			// Technically not part of the "CPU," but needed for some instructions
+
+	// Save state functions
 
 
 private:
 	int _clockSpeed;			// Measured in Hertz
 	
 	// Special registers
-	reg16 _I;					// for graphics
 	reg16 _PC;					// Program Counter
+	reg16 _I;					// for graphics
 	reg8 _DT;					// Delay Timer
 	reg8 _ST;					// Sound timer
 	

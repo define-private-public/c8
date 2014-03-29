@@ -81,6 +81,11 @@ public:
 	int getStackSize();
 	int getStackPointer();
 
+	// Savestate operations; do not use unless you know what you're doing
+	void load(reg16 *stack, int sp, int stackSize);
+	reg16 *dump();
+
+
 private:
 	int _sp;			// Stack pointer (points to top of stack)
 	int _stackSize;

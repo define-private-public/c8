@@ -1,0 +1,29 @@
+This file defines the format regarding savestate files for the c8 CHIP-8
+emualtor.  It will be in a Binary encoded format
+
+The first data to be stored on there the register data, in the order of:
+ 1. PC 		(2 bytes)
+ 2. I		(2 bytes)
+ 3. DT		(1 byte)
+ 4. ST 		(1 byte)
+
+Next the V registers, in order from 0 to F (each 1 byte). 
+
+Then the stack should be appended on, with the following data in order:
+ 1. stack pointer 	(1 byte)
+ 2. stack size		(1 byte)
+ 3. Stack values	(2 bytes * stack size)
+
+The stack values will start with 0, then go up till the stack sizea
+
+After that is a dump of the memory (all 4 KB), starting at location 0x000, going
+to 0xFFF.
+
+The last thing that needs to be loaded/saved is the Display data,  it goes in
+this order:
+ 1. width		(1 byte)
+ 2. height		(1 byte)
+ 3. pixel data	(width * height bytes)
+
+The pixel data will be a 1 for on, and 0 for off.  Anything else is undefined.
+

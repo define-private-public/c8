@@ -376,3 +376,19 @@ int Stack::getStackPointer() {
 }
 
 
+// Sets up the stack from a save state
+void Stack::load(reg16 *stack, int sp, int stackSize) {
+	_sp = sp;
+	_stackSize = stackSize;
+	memcpy(_stack, stack, sizeof(reg16) * _stackSize);
+}
+
+
+// Dump the stack into a dynamically allocated array
+// The stack pointer and stack size can be received from other member functions
+reg16 *Stack::dump() {
+	reg16 *stack = new reg16[_stackSize];
+	memcpy(stack, _stack, sizeof(reg16) * _stackSize);
+
+	return stack;
+}

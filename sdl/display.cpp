@@ -138,3 +138,25 @@ int Display::drawSprite(int x, int y, int sHeight, unsigned char pixels[]) {
 }
 
 
+// Load up display data from a save state
+void Display::load(int width, int height, unsigned char *pixels) {
+	_width = width;
+	_height = height;
+
+	// Would use memcpy here, but size differences
+	for (int i = 0; i < (_width * _height); i++)
+		_pixels[i] = pixels[i];
+}
+
+
+// Other data regarding the display can be obtained via accessor methods
+// Allocated dynamic memory that must be freeded
+unsigned char *Display::dump() {
+	unsigned char *pixels = new unsigned char[_width * _height];
+	for (int i = 0; i < (_width * _height); i++)
+		pixels[i] = _pixels[i];
+	
+	return pixels;
+}
+
+
