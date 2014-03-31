@@ -19,7 +19,7 @@ CPU::CPU(int clockSpeed) :
 	_PC(MEM_PROG_START),
 	_waitingForInput(false),
 	stepModeOn(false),
-	step(false)
+	step(0)
 {	
 	// Everything else should be NULL or 0
 	for (int i = 0; i < 16; i++)
@@ -49,11 +49,11 @@ int CPU::executeNextOperation() {
 	// For step by step executiong
 	if (stepModeOn) {
 		// Only make a step if we set one
-		if (!step)
+		if (step == 0)
 			return 0;
 
 		// Else, continute
-		step = false;	// toggle it
+		step--;
 		cout << hex << uppercase;
 		cout << "  0x" << setfill('0') << setw(3) << _PC;
 		cout << ":    " << setfill(' ') << setw(4) << _curInst << endl;
