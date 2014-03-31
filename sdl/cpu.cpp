@@ -56,7 +56,7 @@ int CPU::executeNextOperation() {
 		step = false;	// toggle it
 		cout << hex << uppercase;
 		cout << "  0x" << setfill('0') << setw(3) << _PC;
-		cout << ":    " << setfill(' ') << setw(0) << _curInst << endl;
+		cout << ":    " << setfill(' ') << setw(4) << _curInst << endl;
 		cout << dec << nouppercase;
 	}
 	
@@ -193,10 +193,10 @@ int CPU::executeNextOperation() {
 					break;
 
 				case 0x6:
-					// Shift the value in V[y] over by one bit to the right, store it in V[x], and set V[F] to
-					// the value of the LSB in V[y] before the shift
-					_V[0xF] = _V[y] & 0x1;	// Get the LSB
-					_V[x] = _V[y] >> 1;
+					// Shift the value in V[x] over by one bit to the right, store it in V[x], and set V[F] to
+					// the value of the LSB in V[x] before the shift
+					_V[0xF] = _V[x] & 0x1;	// Get the LSB
+					_V[x] = _V[x] >> 1;
 					_PC += INST_SIZE;
 					break;
 
@@ -212,10 +212,10 @@ int CPU::executeNextOperation() {
 					break;
 
 				case 0xE:
-					// Shift the value in V[y] over by one bit to the left, store it in V[x], and set V[F] to
-					// the value of the MSB in V[y] before the shift
-					_V[0xF] = _V[y] & 0x80;	// Get the MSB
-					_V[x] = _V[y] << 1;
+					// Shift the value in V[x] over by one bit to the left, store it in V[x], and set V[F] to
+					// the value of the MSB in V[x] before the shift
+					_V[0xF] = (_V[x] & 0x80) >> 7;	// Get the MSB
+					_V[x] = _V[x] << 1;
 					_PC += INST_SIZE;
 					break;
 
