@@ -71,7 +71,7 @@ int Display::getHeight() {
 
 // Clears the screen (i.e. set all pixels to 0)
 void Display::clearDisplay() {
-	memset(_pixels, 0, _width * _height);
+	memset(_pixels, 0, (_width * _height) * sizeof(_pixels[0]));
 }
 
 
