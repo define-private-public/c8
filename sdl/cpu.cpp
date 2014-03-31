@@ -19,6 +19,7 @@ CPU::CPU(int clockSpeed) :
 	_PC(MEM_PROG_START),
 	_waitingForInput(false),
 	stepModeOn(false),
+	debugInfo(false),
 	step(0)
 {	
 	// Everything else should be NULL or 0
@@ -45,6 +46,9 @@ int CPU::executeNextOperation() {
 	if (_fetch())
 		return -1;
 
+	// Print debugging information
+	if (stepModeOn || debugInfo)
+		_printDebugInfo();
 	
 	// For step by step executiong
 	if (stepModeOn) {
@@ -54,10 +58,6 @@ int CPU::executeNextOperation() {
 
 		// Else, continute
 		step--;
-		cout << hex << uppercase;
-		cout << "  0x" << setfill('0') << setw(3) << _PC;
-		cout << ":    " << setfill(' ') << setw(4) << _curInst << endl;
-		cout << dec << nouppercase;
 	}
 	
 
@@ -518,3 +518,11 @@ void CPU::load(reg16 pc, reg16 i, reg8 dt, reg8 st, reg8 *v, unsigned char waiti
 	_inputReg = inputReg;
 }
 
+
+// Prints debugging information.
+void CPU::_printDebugInfo() {
+	cout << hex << uppercase;
+	cout << "  PC=0x" << setfill('0') << setw(3) << _PC;
+	cout << ":    " << setfill(' ') << setw(4) << _curInst << endl;
+	cout << dec << nouppercase;
+}

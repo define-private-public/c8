@@ -48,6 +48,7 @@ public:
 	bool keyDown[16];			// Technically not part of the "CPU," but needed for some instructions
 	bool stepModeOn;			// If you want to do step by step executution (a.k.a. debugging)
 	int step;					// For step by step execution
+	bool debugInfo;				// Turn on Debug information
 
 	// Save state functions
 	void load(reg16 pc, reg16 i, reg8 dt, reg8 st, reg8 *v, unsigned char waitingForInput, unsigned char inputReg);
@@ -76,7 +77,8 @@ private:
 	int _inputReg;
 
 	// Internal functions
-	int _fetch();			// Sets the next instruction for us
+	int _fetch();				// Sets the next instruction for us
+	void _printDebugInfo();		// Prints debugging information to standard output
 
 
 	// TODO: Things for input
