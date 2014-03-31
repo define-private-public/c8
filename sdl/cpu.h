@@ -46,6 +46,8 @@ public:
 
 	// Varibles
 	bool keyDown[16];			// Technically not part of the "CPU," but needed for some instructions
+	bool stepModeOn;			// If you want to do step by step executution (a.k.a. debugging)
+	bool step;					// For step by step execution
 
 	// Save state functions
 	void load(reg16 pc, reg16 i, reg8 dt, reg8 st, reg8 *v, unsigned char waitingForInput, unsigned char inputReg);

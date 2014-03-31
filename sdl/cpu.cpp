@@ -7,6 +7,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <iomanip>
+#include <ios>
 using namespace std;
 
 
@@ -15,7 +17,9 @@ CPU::CPU(int clockSpeed) :
 	_clockSpeed(clockSpeed),
 	_I(MEM_FONT_START),
 	_PC(MEM_PROG_START),
-	_waitingForInput(false)
+	_waitingForInput(false),
+	stepModeOn(false),
+	step(false)
 {	
 	// Everything else should be NULL or 0
 	for (int i = 0; i < 16; i++)
@@ -41,7 +45,24 @@ int CPU::executeNextOperation() {
 	if (_fetch())
 		return -1;
 
-	// For decoding the instructoin
+	
+	// For step by step executiong
+	if (stepModeOn) {
+		// Only make a step if we set one
+		if (!step)
+			return 0;
+
+		// Else, continute
+		step = false;	// toggle it
+		cout << hex << uppercase;
+		cout << "  0x" << setfill('0') << setw(3) << _PC;
+		cout << ":    " << setfill(' ') << setw(0) << _curInst << endl;
+		cout << dec << nouppercase;
+	}
+	
+
+
+	// F:taor decoding the instructoin
 	int opc = (_curInst & 0xF000) >> 12;
 	int nnn = _curInst & 0x0FFF;			// 12 bit mem. addr.
 	int nn = _curInst & 0x00FF;				// 8 bit constant

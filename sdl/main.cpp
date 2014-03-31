@@ -65,6 +65,7 @@ int main(int argc, char *argv[]) {
 	SDL_Color onClr = {0xE0, 0xEE, 0xEE}, offClr = {0x00, 0x00, 0x9C};
 	SDL_AudioSpec beepSpec;
 	bool saveStatesOn = false;
+	cpu.stepModeOn = true;
 	
 	// For graphics
 	SDL_Rect pixelRects[disp.getWidth() * disp.getHeight()];
@@ -312,6 +313,12 @@ int main(int argc, char *argv[]) {
 						}
 
 						break;
+
+					case SDLK_m:
+						// Perform a STEP
+						cpu.step = true;
+						break;
+
 					case SDLK_1:
 						cpu.keyDown[0x1] = true;
 						break;
