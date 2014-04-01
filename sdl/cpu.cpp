@@ -45,10 +45,6 @@ int CPU::executeNextOperation() {
 	// Get the next instruction
 	if (_fetch())
 		return -1;
-
-	// Print debugging information
-	if (stepModeOn || debugInfo)
-		_printDebugInfo();
 	
 	// For step by step executiong
 	if (stepModeOn) {
@@ -59,7 +55,10 @@ int CPU::executeNextOperation() {
 		// Else, continute
 		step--;
 	}
-	
+
+	// Print debugging information
+	if (stepModeOn || debugInfo)
+		_printDebugInfo();
 
 
 	// F:taor decoding the instructoin

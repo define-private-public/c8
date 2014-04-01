@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
 	SDL_AudioSpec beepSpec;
 	bool saveStatesOn = false;
 
-	cpu.stepModeOn = false;
+	cpu.stepModeOn = true;
 	cpu.debugInfo = false;
 	
 	// For graphics
