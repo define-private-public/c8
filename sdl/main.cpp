@@ -64,10 +64,13 @@ int main(int argc, char *argv[]) {
 	SDL_Event event;
 	SDL_Color onClr = {0xE0, 0xEE, 0xEE}, offClr = {0x00, 0x00, 0x9C};
 	SDL_AudioSpec beepSpec;
-	bool saveStatesOn = false;
 
 	cpu.stepModeOn = false;
 	cpu.debugInfo = false;
+
+	// For savestates
+	int saveStateCounter = 0;
+	char saveStateFilename[8];
 	
 	// For graphics
 	SDL_Rect pixelRects[disp.getWidth() * disp.getHeight()];
@@ -83,11 +86,7 @@ int main(int argc, char *argv[]) {
 		exit(0);
 	}
 
-	// Turn on save states, third arguement is the save state file
-	if (argc >= 3) 
-		saveStatesOn = true;
 
-	
 	/*== Initialize the SDL stuff ==*/
 	// Init all of the sub systems
 	if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
@@ -295,25 +294,47 @@ int main(int argc, char *argv[]) {
 				// not for the block one, just general, key down?
 				switch (event.key.keysym.sym) {
 					case SDLK_p:
-						// Save state save
-						if (saveStatesOn) {
-							if (writeSaveState(argv[2], &cpu, &stack, &mem, &disp) == 0)
-								cout << "Save state written to `" << argv[2] << "`." << endl;
-							else
-								cout << "Error writing save state to `" << argv[2] << "`." << endl;
-						}
-
+						// Save save state 
+						// Write the file
+						saveStateCounter++;			// Inc. the counter
+						sprintf(saveStateFilename, "%i.c8s", saveStateCounter);	
+						if (writeSaveState(saveStateFilename, &cpu, &stack, &mem, &disp) == 0)
+							cout << "Save state written to `" << saveStateFilename << endl;
+						else
+							cout << "Error writing save state to `" << saveStateFilename << endl;
 						break;
 
 					case SDLK_o:
-						// load state save
-						if (saveStatesOn) {
-							if (loadSaveState(argv[2], &cpu, &stack, &mem, &disp) == 0)
-								cout << "Loaded save state `" << argv[2] << "`." << endl;
-							else
-								cout << "Error loading save state `" << argv[2] << "`." << endl;
-						}
+						// load save state 
 
+						// First make a check
+						if (saveStateCounter < 1)
+							cout << "No save states found" << endl;
+						else {
+							sprintf(saveStateFilename, "%i.c8s", saveStateCounter);	
+							if (loadSaveState(saveStateFilename, &cpu, &stack, &mem, &disp) == 0)
+								cout << "Loaded save state `" << saveStateFilename << endl;
+							else
+								cout << "Error loading save state `" << saveStateFilename << endl;
+						}
+						break;
+
+					case SDLK_MINUS:
+						// Decrement the savestate counter
+						saveStateCounter--;
+						if (saveStateCounter < 0)
+							saveStateCounter = 0;
+
+						cout << "Now at save state: " << saveStateCounter << endl;
+						break;
+
+					case SDLK_EQUALS:
+						// Increment the savestate counter
+						saveStateCounter++;
+						if (saveStateCounter > 999)
+							saveStateCounter = 999;
+
+						cout << "Now at save state: " << saveStateCounter << endl;
 						break;
 
 					case SDLK_m:
