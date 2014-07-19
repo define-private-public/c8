@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # Reads in the bytes of a Chip 8 program, and then displays it's contents
 
 import sys
