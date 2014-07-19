@@ -1,8 +1,8 @@
 c8 -- A CHIP-8 Emulator
 =======================
 
-This was another attempt at making another CHIP-8 Emulator/Interpreter.  This
-one turned out much better and is more modular.  While it does run more ROMs it
+This was another attempt at making CHIP-8 Emulator/Interpreter.  This one
+turned out much better and is more modular.  While it does run more ROMs it
 doesn't run them all; there are still a few bugs.
 
 
@@ -64,7 +64,7 @@ If you have turned on step by step execution in the source, press the `m` key to
 go to the next instruction.
 
 
-Directorys:
+Directories:
 -----------
  * `./sdl/` -- Main source code for the emualtor.  Was going to make a Qt
                version as well, but I scrapped that idea.  You'll notice that
@@ -77,4 +77,4 @@ Misc.
 -----
 If you encounter any bugs, issues, or have have a feature request, put it in the
 GitHub tracker please.
-
+ 
