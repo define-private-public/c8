@@ -30,7 +30,7 @@ Usage:
 ------
     $ ./c8_sdl <rom_file>
 
- * <rom_file> -- Location of the CHIP-8 ROM to run
+ * `<rom_file>` -- Location of the CHIP-8 ROM to run
 
 The key mapping is as follows:
 
